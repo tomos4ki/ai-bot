@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 
 from assets.commands import CommandTree
+from assets.dms import handle_dm
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -31,8 +32,17 @@ command_tree.add_commands()
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    print(f"application id: {client.application_id}")
     await command_tree.sync_commands()
+
+@client.event
+async def on_message(message):
+    if message.channel.type == discord.ChannelType.private:
+        await handle_dm(message)
+
+
+
+
+
 
 if __name__ == '__main__':
     token = os.getenv('DISCORD_HUTAO_AI_TOKEN')
