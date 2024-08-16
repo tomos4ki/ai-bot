@@ -4,5 +4,7 @@
  
  
  pip install python-dotenv
+
  pip install discord.py
+ 
   that's all i remember

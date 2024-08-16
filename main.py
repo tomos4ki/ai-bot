@@ -26,6 +26,10 @@ client = commands.Bot(
 
 
 
+
+
+
+
 command_tree = CommandTree(client)
 command_tree.add_commands()
 
@@ -38,6 +42,8 @@ async def on_ready():
 async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         await handle_dm(message)
+    else:
+        await client.process_commands(message)
 
 
 
