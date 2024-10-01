@@ -7,15 +7,14 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=loggi
 
 # Log a message
 
-
-def log_message(message="hi", level = 1):#level=logging.INFO):
-    logging.info(level, message)
+def log_message(message, level):#level=logging.INFO):
+    return logging.info(message, level)
 
 
 def infinite_log():
     while True:
         log_message()
-        time.sleep(0.05)
+        time.sleep(2)
 
 def log(message, x):
     if x == 1:

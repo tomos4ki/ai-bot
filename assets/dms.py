@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 import requests
-from assets.log import log
 #from dms_history import dm_history
 
 
@@ -26,9 +25,8 @@ def get_response(message, user_id, user_name, user_username):
     #output = @hf/thebloke/neural-chat-7b-v3-1-awq
     #output = @cf/meta/llama-3-8b-instruct
     output = run("@hf/thebloke/neural-chat-7b-v3-1-awq", inputs)
-    print(log())
     print(f"Receved DM from {user_name}({user_username})with ID ({user_id})")
-    print(f"{log()}output is {output}")
+    print(f"output is {output}")
     if 'result' in output and 'response' in output['result']:
                                    #)> 0 and 'message' in output['result'][0] and 'content' in output['result'][0]['message']:
         responce = output['result']['response']
