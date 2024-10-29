@@ -9,6 +9,9 @@
 
  pip install discord.py
  
-  that's all i remember
+  for linux, tried linux mint
+  the commands were:
+  apt install python3-discord
+  apt install python3-dotenv
 
   ```
