@@ -18,7 +18,7 @@ intents.presences = False
 
 load_dotenv()
 
-activity = discord.Activity(type=discord.ActivityType.listening, name="Hutao AI")
+activity = discord.Activity(type=discord.ActivityType.listening, name="tomo's commands")
 client = commands.Bot(
     command_prefix='!', 
     activity=activity, 
