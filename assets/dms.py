@@ -52,6 +52,6 @@ async def handle_dm(message):
     #     if last_message.author == message.author and (message.created_at - last_message.created_at).total_seconds() < cooldown:
     #         return
 
-    response = get_response(message.content, user_id, user_name, user_username)
-
-    await message.channel.send(response)
+    async with message.channel.typing():
+        response = get_response(message.content, user_id, user_name, user_username)
+        await message.channel.send(response)
