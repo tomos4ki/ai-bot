@@ -8,7 +8,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=loggi
 
 def log_message(message, message_type):
     if message_type == 1:
-        logging.info(f'Bot messag : {message}')
+        logging.info(f'Bot message : {message}')
     elif message_type == 2:
         logging.error(f'Error message : {message}')
     elif message_type == 3:
