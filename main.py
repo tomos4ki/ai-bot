@@ -3,6 +3,7 @@ import asyncio
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+from assets.log import log_message
 
 
 from assets.commands import CommandTree
@@ -37,7 +38,7 @@ command_tree.add_commands()
 
 @client.event
 async def on_ready():
-    print(f' {client.user.name} has connected to Discord!')
+    print(f'{client.user.name} has connected to Discord on {log_message("connected",1)}')
     await command_tree.sync_commands()
 
 @client.event
@@ -57,4 +58,5 @@ if __name__ == '__main__':
     try:
         client.run(token)
     except Exception as e:
-        print(f" ERROR: {e}")
+        print(f"{log_message("ERROR :",2)}{e}")
+        #log_message  1 bot, 2 error, 3 notification, 4 reply, else unknown

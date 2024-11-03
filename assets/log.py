@@ -18,6 +18,7 @@ def log_message(message, message_type):
     else :
         logging.warning(f'Unknown message type : {message}')
     print(logging)
+    return(logging)
 
 
 #infinite logging loop for demenstration
@@ -30,5 +31,5 @@ def infinite_log(message, message_type):
 
 if __name__ == '__main__':
     infinite_log("this is a test messae",3)
-else:
-    log_message(message, type)
+
+#log_message(message, type)

@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 import requests
-from dms_history import dm_history
-from log import log_message
+from assets.dms_history import dm_history
+from assets.log import log_message
 
 
 API_BASE_URL = "https://api.cloudflare.com/client/v4/accounts/db5d0abbbab31174a76149945ff13959/ai/run/"
@@ -40,7 +40,8 @@ def get_response(message, user_id, user_name, user_username):
     history_saved = dm_history(user_id, message,responce)#future adding the ai model for multiple ai models, exemple ( user_id, message, ai_id, responce)
     if history_saved != 1:
         log_message("message coulden't be saved in file, error in database", 2)# 1 bot, 2 error, 3 notification, 4 reply, else unknown
-    
+    else:
+        print("history saved i guess!")
     return responce
 
 
