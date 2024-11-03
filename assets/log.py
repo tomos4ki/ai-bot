@@ -7,13 +7,13 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=loggi
 # Log a message with  the correct level and message type
 
 def log_message(message, message_type):
-    if message_type == 'bot':
+    if message_type == 1:
         logging.info(f'Bot messag : {message}')
-    elif message_type == 'error':
+    elif message_type == 2:
         logging.error(f'Error message : {message}')
-    elif message_type == 'notification':
+    elif message_type == 3:
         logging.info(f'notification : {message}')
-    elif message_type == 'reply':
+    elif message_type == 4:
         logging.info(f'reply message : {message}')
     else :
         logging.warning(f'Unknown message type : {message}')
@@ -29,6 +29,6 @@ def infinite_log(message, message_type):
 
 
 if __name__ == '__main__':
-    infinite_log("this is a test messae",'notification')
+    infinite_log("this is a test messae",3)
 else:
-    log_message()
+    log_message(message, type)
