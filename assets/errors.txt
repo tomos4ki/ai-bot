@@ -1,0 +1,167 @@
+oduleNotFoundError: No module named 'log'
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 19:57:21 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:57:21,878 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:57:21 INFO     discord.client logging in using static token
+2024-11-03 19:57:21,879 INFO: logging in using static token
+2024-11-03 19:57:22,741 ERROR: Error message : ERROR :
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 19:57:43 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:57:43,852 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:57:43 INFO     discord.client logging in using static token
+2024-11-03 19:57:43,853 INFO: logging in using static token
+2024-11-03 19:57:44,462 ERROR: Error message : ERROR :
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 19:58:31 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:58:31,674 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 19:58:31 INFO     discord.client logging in using static token
+2024-11-03 19:58:31,675 INFO: logging in using static token
+2024-11-03 19:58:32,344 ERROR: Error message : ERROR :
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+mint@mint:~/Desktop/hutao-ai-bot$ [A
+[A: command not found
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 20:00:04 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:00:04,730 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:00:04 INFO     discord.client logging in using static token
+2024-11-03 20:00:04,732 INFO: logging in using static token
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/http.py", line 803, in static_login
+    data = await self.request(Route('GET', '/users/@me'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/discord/http.py", line 745, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 401 Unauthorized (error code: 0): 401: Unauthorized
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/mint/Desktop/hutao-ai-bot/main.py", line 59, in <module>
+    client.run(token)
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 860, in run
+    asyncio.run(runner())
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 849, in runner
+    await self.start(token, reconnect=reconnect)
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 777, in start
+    await self.login(token)
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 612, in login
+    data = await self.http.static_login(token)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/discord/http.py", line 807, in static_login
+    raise LoginFailure('Improper token has been passed.') from exc
+discord.errors.LoginFailure: Improper token has been passed.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mint/Desktop/hutao-ai-bot/main.py", line 61, in <module>
+    print(f"{log_message("ERROR :",)}{e}")
+             ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: log_message() missing 1 required positional argument: 'message_type'
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 20:00:20 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:00:20,757 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:00:20 INFO     discord.client logging in using static token
+2024-11-03 20:00:20,759 INFO: logging in using static token
+2024-11-03 20:00:21,823 ERROR: Error message : ERROR :
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>Improper token has been passed.
+mint@mint:~/Desktop/hutao-ai-bot$ 
+ *  History restored 
+
+mint@mint:~/Desktop/hutao-ai-bot$ python3 main.py
+2024-11-03 20:10:02 WARNING  discord.ext.commands.bot Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:10:02,005 WARNING: Privileged message content intent is missing, commands may not work as expected.
+2024-11-03 20:10:02 INFO     discord.client logging in using static token
+2024-11-03 20:10:02,007 INFO: logging in using static token
+2024-11-03 20:10:04 INFO     discord.gateway Shard ID None has connected to Gateway (Session ID: f402c3566eca9073e1490acbb1c55c42).
+2024-11-03 20:10:04,073 INFO: Shard ID None has connected to Gateway (Session ID: f402c3566eca9073e1490acbb1c55c42).
+2024-11-03 20:10:06,217 INFO: Bot messag : connected
+<module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+hutao ai has connected to Discord on <module 'logging' from '/usr/lib/python3.12/logging/__init__.py'>
+Receved DM from tomos4ki(tomos4ki)with ID (755483394116419696)
+message is : Hi
+output is {'result': {'response': 'Hello'}, 'success': True, 'errors': [], 'messages': []}
+2024-11-03 20:10:53 ERROR    discord.client Ignoring exception in on_message
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/mint/Desktop/hutao-ai-bot/main.py", line 47, in on_message
+    await handle_dm(message)
+  File "/home/mint/Desktop/hutao-ai-bot/assets/dms.py", line 64, in handle_dm
+    response = get_response(message.content, user_id, user_name, user_username)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mint/Desktop/hutao-ai-bot/assets/dms.py", line 40, in get_response
+    history_saved = dm_history(user_id, message,responce)#future adding the ai model for multiple ai models, exemple ( user_id, message, ai_id, responce)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dm_history() takes 2 positional arguments but 3 were given
+2024-11-03 20:10:53,671 ERROR: Ignoring exception in on_message
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/client.py", line 441, in _run_event
+    await coro(*args, **kwargs)
+  File "/home/mint/Desktop/hutao-ai-bot/main.py", line 47, in on_message
+    await handle_dm(message)
+  File "/home/mint/Desktop/hutao-ai-bot/assets/dms.py", line 64, in handle_dm
+    response = get_response(message.content, user_id, user_name, user_username)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mint/Desktop/hutao-ai-bot/assets/dms.py", line 40, in get_response
+    history_saved = dm_history(user_id, message,responce)#future adding the ai model for multiple ai models, exemple ( user_id, message, ai_id, responce)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dm_history() takes 2 positional arguments but 3 were given
+2024-11-03 20:15:46 ERROR    discord.app_commands.tree Ignoring exception in command 'test'
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 828, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mint/Desktop/hutao-ai-bot/assets/commands.py", line 13, in ping
+    print(f"interaction to the command test by user{self.user_id}")
+                                                    ^^^^^^^^^^^^
+AttributeError: 'CommandTree' object has no attribute 'user_id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/app_commands/tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'test' raised an exception: AttributeError: 'CommandTree' object has no attribute 'user_id'
+2024-11-03 20:15:46,351 ERROR: Ignoring exception in command 'test'
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 828, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mint/Desktop/hutao-ai-bot/assets/commands.py", line 13, in ping
+    print(f"interaction to the command test by user{self.user_id}")
+                                                    ^^^^^^^^^^^^
+AttributeError: 'CommandTree' object has no attribute 'user_id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/discord/app_commands/tree.py", line 1248, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 853, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/discord/app_commands/commands.py", line 846, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'test' raised an exception: AttributeError: 'CommandTree' object has no attribute 'user_id'
+mint@mint:~/Desktop/hutao-ai-bot$ 
