@@ -26,6 +26,7 @@ def get_response(message, user_id, user_name, user_username):
     #output = @cf/meta/llama-3-8b-instruct
     output = run("@hf/thebloke/neural-chat-7b-v3-1-awq", inputs)
     print(f"Receved DM from {user_name}({user_username})with ID ({user_id})")
+    print(f"message is : {message}")
     print(f"output is {output}")
     if 'result' in output and 'response' in output['result']:
                                    #)> 0 and 'message' in output['result'][0] and 'content' in output['result'][0]['message']:
