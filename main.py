@@ -5,7 +5,6 @@ import os
 from dotenv import load_dotenv
 from assets.log import log_message
 
-#i'm back baby
 
 from assets.commands import CommandTree
 from assets.dms import handle_dm
