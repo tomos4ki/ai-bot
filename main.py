@@ -58,5 +58,5 @@ if __name__ == '__main__':
     try:
         client.run(token)
     except Exception as e:
-        print(f"{log_message("ERROR :",2)}{e}")
+        print({e})
         #log_message  1 bot, 2 error, 3 notification, 4 reply, else unknown

@@ -10,7 +10,7 @@ class CommandTree:
         @self.tree.command(name = "test", description = "replies and shows you the ping between you and the bot's server")
         async def ping(interaction: discord.Interaction):
             await interaction.response.defer()
-            print(f"interaction to the command test by user{self.user_id}")
+            print(f"interaction to the command test by user")#user cannot be added cuz command tree don't have it, see ticket for info for this
 
             # Get the ping between the bot and the Discord server
             server_ping = round(self.bot.latency * 1000)
