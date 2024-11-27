@@ -42,7 +42,7 @@ def get_response(message, user_id, user_name, user_username):
     #     log_message("message coulden't be saved in file, error in database", 2)# 1 bot, 2 error, 3 notification, 4 reply, else unknown
     # else:
     #     print("history saved i guess!")
-    # return responce
+    return responce
 
 
 
