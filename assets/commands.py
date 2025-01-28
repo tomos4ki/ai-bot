@@ -16,11 +16,16 @@ class CommandTree:
         @self.tree.command(name = "winter_ark", description = "opens winter ark app in your dm")
         async def ping(interaction: discord.Interaction):
             await interaction.response.send_message("opening winter ark app in your dm")
-    
-    def add_commands_winter_ark(self):
-        @self.tree.command(name = "winter_ark", description = "opens winter ark app in your dm")
+        
+
+        @self.tree.command(name= "ttm", description="converts text to image(currently under testing)")
         async def ping(interaction: discord.Interaction):
-            await interaction.response.send_message("opening winter ark app in your dm")
+            await interaction.response.send_message("currently under maintenence")
+    
+    # def add_commands_winter_ark(self):
+    #     @self.tree.command(name = "winter_ark", description = "opens winter ark app in your dm")
+    #     async def ping(interaction: discord.Interaction):
+    #         await interaction.response.send_message("opening winter ark app in your dm")
 
 
 
