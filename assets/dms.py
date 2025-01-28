@@ -2,7 +2,8 @@ import discord
 from discord.ext import commands
 from discord.utils import get
 import requests
-#from dms_history import dm_history
+from assets.dms_history import dm_history
+from assets.log import log_message
 
 
 API_BASE_URL = "https://api.cloudflare.com/client/v4/accounts/db5d0abbbab31174a76149945ff13959/ai/run/"
@@ -25,15 +26,22 @@ def get_response(message, user_id, user_name, user_username):
     #output = @hf/thebloke/neural-chat-7b-v3-1-awq
     #output = @cf/meta/llama-3-8b-instruct
     output = run("@hf/thebloke/neural-chat-7b-v3-1-awq", inputs)
-    print(f"Receved DM from {user_name}({user_username})with ID ({user_id})")
-    print(f"output is {output}")
+    
     if 'result' in output and 'response' in output['result']:
                                    #)> 0 and 'message' in output['result'][0] and 'content' in output['result'][0]['message']:
         responce = output['result']['response']
     else:
         responce =" Error: unable to retreve responce from the ai"
-    
-    
+    print(f"Receved DM from {user_name}({user_username})with ID ({user_id})")
+    print(f"message is : {message}")
+    print(f"output is {output}")
+
+    #for now it will only do the history thing
+    #history_saved = dm_history(user_id, message,responce)#future adding the ai model for multiple ai models, exemple ( user_id, message, ai_id, responce)
+    # if history_saved != 1:
+    #     log_message("message coulden't be saved in file, error in database", 2)# 1 bot, 2 error, 3 notification, 4 reply, else unknown
+    # else:
+    #     print("history saved i guess!")
     return responce
 
 

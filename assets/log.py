@@ -1,31 +1,35 @@
 import logging
-
 import time
 
 # Set up the logging format
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.INFO)
 
-# Log a message
+# Log a message with  the correct level and message type
 
-def log_message(message, level):#level=logging.INFO):
-    return logging.info(message, level)
+def log_message(message, message_type):
+    if message_type == 1:
+        logging.info(f'Bot message : {message}')
+    elif message_type == 2:
+        logging.error(f'Error message : {message}')
+    elif message_type == 3:
+        logging.info(f'notification : {message}')
+    elif message_type == 4:
+        logging.info(f'reply message : {message}')
+    else :
+        logging.warning(f'Unknown message type : {message}')
+    print(logging)
+    return(logging)
 
 
-def infinite_log():
+#infinite logging loop for demenstration
+def infinite_log(message, message_type):
     while True:
-        log_message()
-        time.sleep(2)
+        log_message(message, message_type)
+        time.sleep(0.2)
 
-def log(message, x):
-    if x == 1:
-        level = logging.INFO
-    elif x == 2:
-        level = logging.WARNING
-    else:
-        level = logging.ERROR
-    log_message(message, level)
+
 
 if __name__ == '__main__':
-    infinite_log()
-else:
-    log()
+    infinite_log("this is a test messae",3)
+
+#log_message(message, type)
