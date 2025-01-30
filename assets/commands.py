@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import asyncio
 
 class CommandTree:
     def __init__(self, bot):
@@ -20,8 +21,14 @@ class CommandTree:
 
             #sending initial  responce
             await interaction.followup.send("test works")
+            # waiting 1 second to make the first responce visible
+            await asyncio.sleep(1)
             #sending the ping result
             await interaction.followup.send(f"Bot ping: {server_ping}ms\nUser ping: {user_ping}ms")
+            # waiting 3 seconds ffor the next followup
+            await asyncio.sleep(1)
+            #sending the final message
+            await interaction.followup.send("done")
 
         
 
@@ -33,20 +40,13 @@ class CommandTree:
         @self.tree.command(name= "ttm", description="converts text to image(currently under testing)")
         async def ping(interaction: discord.Interaction):
             await interaction.response.send_message("currently under maintenence")
+
+        @self.tree.command(name= "bot ping", description="ping of the bot to the discord server")
+        async def server_ping(interaction: discord.Interaction):
+            await interaction.response.send_message(f"Bot ping: {round(self.bot.latency * 1000)}ms")
+            await asyncio.sleep(10)
+            await interaction.response.send_message("done")
     
-    # def add_commands_winter_ark(self):
-    #     @self.tree.command(name = "winter_ark", description = "opens winter ark app in your dm")
-    #     async def ping(interaction: discord.Interaction):
-    #         await interaction.response.send_message("opening winter ark app in your dm")
-
-
-
-
-
-        
-
-
-
-
+   
     async def sync_commands(self):
         await self.tree.sync()
