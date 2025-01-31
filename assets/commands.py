@@ -41,7 +41,7 @@ class CommandTree:
         async def ping(interaction: discord.Interaction):
             await interaction.response.send_message("currently under maintenence")
 
-        @self.tree.command(name= "bot ping", description="ping of the bot to the discord server")
+        @self.tree.command(name= "bot_ping", description="ping of the bot to the discord server")
         async def server_ping(interaction: discord.Interaction):
             await interaction.response.send_message(f"Bot ping: {round(self.bot.latency * 1000)}ms")
             await asyncio.sleep(10)
