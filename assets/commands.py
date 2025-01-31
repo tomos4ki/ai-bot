@@ -45,8 +45,7 @@ class CommandTree:
         async def server_ping(interaction: discord.Interaction):
             await interaction.response.send_message(f"Bot ping: {round(self.bot.latency * 1000)}ms")
             await asyncio.sleep(10)
-            await interaction.response.send_message("done")
-    
+            await interaction.response.send_message("done")    
    
     async def sync_commands(self):
         await self.tree.sync()
