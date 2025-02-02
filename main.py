@@ -8,6 +8,7 @@ from assets.log import log_message
 
 from assets.commands import CommandTree
 from assets.dms import handle_dm
+#from assets.google_gemini import handle_dm
 
 #from assets.log import log
 

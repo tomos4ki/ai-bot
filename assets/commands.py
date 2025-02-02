@@ -22,11 +22,11 @@ class CommandTree:
             #sending initial  responce
             await interaction.followup.send("test works")
             # waiting 1 second to make the first responce visible
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             #sending the ping result
             await interaction.followup.send(f"Bot ping: {server_ping}ms\nUser ping: {user_ping}ms")
             # waiting 3 seconds ffor the next followup
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.5)
             #sending the final message
             await interaction.followup.send("done")
 

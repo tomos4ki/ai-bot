@@ -15,14 +15,22 @@ class MessageDatabase:
                 response TEXT,
                 date TEXT
             );
-            """
-        )
+            """)
+        self.conn.commit()
+
+
     def add_message(self, user_id, message, response):
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.cursor.execute("""
             INSERT INTO messages (user_id, message, response, date) VALUES (?, ?, ?, ?)";
         """,(user_id, message, response, date))
         self.conn.commit()
+
+    def get_messages(self, user_id):
+        self.cursor.execute("""
+            SELECT * FROM messages WHERE user_id = ?;
+        """, (user_id,))
+        return self.cursor.fetchall()
 
     def close(self):
         self.conn.close()
@@ -39,11 +47,22 @@ class GEminiConerstationHandler:
         self.conversation_history[user_id].append(message)
 
     def get_conversation_history(self, user_id):
-        return self.conversation_history.get(user_id, [])
+        messages = self.db.get_messages(user_id)
+        conversation_history = []
+        for message in messages:
+            conversation_history.append(message[2])
+        return conversation_history
 
     def update_conversation_history(self, user_id, new_history):
         self.conversation_history[user_id] = new_history
 
+class close_db():
+    def __init__(self, db):
+        self.db = db
+    def __enter__(self):
+        return self.db
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.db.close()
 
 
 # CONDENSE_PROMPT_SYSTEM_TEMPLATE = (
