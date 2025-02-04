@@ -1,6 +1,13 @@
 import discord
 from discord.ext import commands
 import asyncio
+from .text_to_image import text_to_image_ai
+from .ai_chat import AiCommandChat
+
+
+
+
+
 
 class CommandTree:
     def __init__(self, bot):
@@ -49,8 +56,13 @@ class CommandTree:
             await interaction.response.send_message("currently under maintenence") 
 
         @self.tree.command(name = "ai-chat", description = "chat with the bot")
-        async def ai_chat(interaction: discord.Interaction):
-            await interaction.response.send_message() 
-   
+        async def ai_chat(interaction: discord.Interaction, text: str):
+            response = AiCommandChat.process_text(self, text)
+            await interaction.response.send_message("recieved your message, processing...")
+            #check if privite or server(pain in the ass ngl)
+            if interaction.channel.type == discord.ChannelType.private:
+                await interaction.user.send(response)
+            else:
+                await interaction.followup.send(response) 
     async def sync_commands(self):
         await self.tree.sync()

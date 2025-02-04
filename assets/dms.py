@@ -4,15 +4,23 @@ from discord.utils import get
 import requests
 from assets.dms_history import dm_history
 from assets.log import log_message
+import os
+from dotenv import load_dotenv
 
 
-API_BASE_URL = "https://api.cloudflare.com/client/v4/accounts/db5d0abbbab31174a76149945ff13959/ai/run/"
-headers = {"Authorization": "Bearer blAvZjZolf3Cq7Vs8sSVOiRV6Xz4WlucT-cSBpMD"}
+load_dotenv()
+
+
+token = os.getenv('CLOWDFLARE_TOEKN')
+
+
+api_url = os.getenv('CLOWDFLARE_API_URL')
+headers = {"Authorization": f"Bearer {token}"}
 
 
 def run(model, inputs):
     input = { "messages": inputs }
-    response = requests.post(f"{API_BASE_URL}{model}", headers=headers, json=input)
+    response = requests.post(f"{api_url}{model}", headers=headers, json=input)
     return response.json()
 
 def get_response(message, user_id, user_name, user_username):

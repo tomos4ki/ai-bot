@@ -20,7 +20,7 @@ intents.presences = False
 
 load_dotenv()
 
-activity = discord.Activity(type=discord.ActivityType.listening, name="tomo's commands")
+activity = discord.Activity(type=discord.ActivityType.playing, name="updating code :(")
 client = commands.Bot(
     command_prefix='!', 
     activity=activity, 
@@ -36,7 +36,13 @@ client = commands.Bot(
 
 command_tree = CommandTree(client)
 command_tree.add_commands()
+command_tree.sync_commands()
 
+class Ai_bot(commands.Bot):
+    def __init__(self, command_prefix):
+        super().__init__(command_prefix = command_prefix)
+        self.tree = commands.CommandTree(self)
+        self.commands = CommandTree(self)
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord on {log_message("connected",1)}')
@@ -55,7 +61,7 @@ async def on_message(message):
 
 
 if __name__ == '__main__':
-    token = os.getenv('DISCORD_HUTAO_AI_TOKEN')
+    token = os.getenv('DISCORD_AI_TOKEN')
     try:
         client.run(token)
     except Exception as e:
