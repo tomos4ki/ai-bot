@@ -4,6 +4,7 @@ from discord.utils import get
 import requests
 from assets.dms_history import dm_history
 from assets.log import log_message
+import json
 import os
 from dotenv import load_dotenv
 
@@ -24,11 +25,26 @@ def run(model, inputs):
     return response.json()
 
 def get_response(message, user_id, user_name, user_username):
+    #loadng the conversation history from the json file
+    json_folder = 'json'
+    if not os.path.exists(f'assets/{json_folder}'):
+        os.makedirs(f'assets/{json_folder}')
+    json_file = f'assets/{json_folder}/{user_id}.json'
+    if not os.path.exists(json_file):
+        with open(json_file, 'w') as f:
+            json.dump([], f)
+    
+    with open(json_file, 'r') as f:
+        conversation_history = json.load(f)
+
+
+    #creating the input for the ai model
     inputs = [
         { "role": "system", "content": 
-         "#you are an anime girl called hutao and she talks like a huan femmale but don't talk too much." },
+         "#you are an anime girl called hutao and she talks like a huan femmale and flirt a bit" },
          #you are an anime girl called hutao and she talks like a huan femmale but don't talk too much.
          #you are an assistent who will get the text sent to you and change it to a clear prompt for a text to image ai
+        *conversation_history,   
         { "role": "user", "content": message },
     ];
     #output = @hf/thebloke/neural-chat-7b-v3-1-awq
@@ -40,6 +56,20 @@ def get_response(message, user_id, user_name, user_username):
         responce = output['result']['response']
     else:
         responce =" Error: unable to retreve responce from the ai"
+
+    #adding the current message to the conversation history
+    conversation_history.append({ 
+        "role": "user", 
+        "content": message,
+        "role_ai": "system",
+        "content_ai": responce
+        })
+
+    #saving the conversation history to the json file
+    with open(json_file, 'w') as f:
+        json.dump(conversation_history, f, indent=4)
+
+
     print(f"Receved DM from {user_name}({user_username})with ID ({user_id})")
     print(f"message is : {message}")
     print(f"output is {output}")
