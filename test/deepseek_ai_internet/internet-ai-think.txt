@@ -1,0 +1,166 @@
+To create an AI system that can access the internet, perform searches, and display results in the terminal, you'll need to integrate several components. Here's how you could approach this:
+
+1. Internet Access and Web Search
+First, you'll need to create functions to access web content and search engines:
+
+python
+CopyInsert
+import requests
+from bs4 import BeautifulSoup
+import json
+
+def search_web(query, num_results=5):
+    """
+    Perform a web search using a search API.
+    
+    Args:
+        query (str): The search query
+        num_results (int): Number of results to return
+        
+    Returns:
+        list: Search results
+    """
+    # Option 1: Use a search API like Google Search API, Bing API, or SerpAPI
+    # This example uses a hypothetical API - you'll need to sign up for an actual service
+    api_key = "YOUR_SEARCH_API_KEY"
+    search_url = f"https://api.searchservice.com/search?q={query}&results={num_results}&api_key={api_key}"
+    
+    try:
+        response = requests.get(search_url)
+        response.raise_for_status()
+        return response.json()["results"]
+    except Exception as e:
+        print(f"Search error: {str(e)}")
+        return []
+
+def fetch_webpage_content(url):
+    """Fetch and parse content from a webpage"""
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Extract main content (this is simplified - real implementation would be more robust)
+        main_text = soup.get_text(separator='\n', strip=True)
+        return main_text
+    except Exception as e:
+        print(f"Error fetching webpage: {str(e)}")
+        return None
+2. Integrate with an AI Model
+You'll need to connect to an AI model like OpenAI's GPT:
+
+python
+CopyInsert
+import openai
+
+def query_ai(prompt, context="", max_tokens=500):
+    """
+    Query the AI model with a prompt and optional context.
+    
+    Args:
+        prompt (str): The prompt for the AI
+        context (str): Additional context to provide to the AI
+        max_tokens (int): Maximum response length
+        
+    Returns:
+        str: AI response
+    """
+    openai.api_key = "YOUR_OPENAI_API_KEY"
+    
+    try:
+        full_prompt = f"{context}\n\nQuestion: {prompt}\n\nAnswer:"
+        
+        response = openai.Completion.create(
+            model="gpt-3.5-turbo-instruct",  # or another appropriate model
+            prompt=full_prompt,
+            max_tokens=max_tokens,
+            temperature=0.7
+        )
+        
+        return response.choices[0].text.strip()
+    except Exception as e:
+        print(f"AI query error: {str(e)}")
+        return "Sorry, I encountered an error while processing your request."
+3. Terminal Interface
+Create a terminal interface to interact with your AI:
+
+python
+CopyInsert
+def display_in_terminal(text, is_ai=True):
+    """Format and display text in the terminal"""
+    import textwrap
+    from colorama import Fore, Style, init
+    
+    init()  # Initialize colorama
+    
+    # Wrap text to terminal width
+    width = min(get_terminal_width(), 100)
+    wrapped_text = textwrap.fill(text, width=width)
+    
+    # Color code based on who's speaking
+    if is_ai:
+        print(f"{Fore.GREEN}AI: {Style.RESET_ALL}{wrapped_text}\n")
+    else:
+        print(f"{Fore.BLUE}You: {Style.RESET_ALL}{wrapped_text}\n")
+
+def get_terminal_width():
+    """Get the current terminal width"""
+    import shutil
+
+
+
+
+
+t
+
+You
+7:48 pm, Mar 27, 2025
+continue the code
+
+Codeium
+7:48 pm, Mar 27, 2025
+Here is the rest of the code:
+
+CopyInsert
+def get_terminal_width():
+    """Get the current terminal width"""
+    import shutil
+    return shutil.get_terminal_size().columns
+
+def main():
+    print("Welcome to the AI Terminal Interface!")
+    print("----------------------------------------")
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "quit":
+            break
+
+        # Search the web
+        if user_input.startswith("search "):
+            query = user_input[7:]
+            results = search_web(query)
+            for result in results:
+                print(f"{result['title']} - {result['url']}")
+
+        # Ask the AI a question
+        elif user_input.startswith("ask "):
+            prompt = user_input[4:]
+            context = ""
+            ai_response = query_ai(prompt, context)
+            display_in_terminal(ai_response, is_ai=True)
+
+        # Display help
+        elif user_input.lower() == "help":
+            print("Available commands:")
+            print("  search <query> - Search the web for <query>")
+            print("  ask <question> - Ask the AI a question")
+            print("  quit - Quit the program")
+
+        # Unknown command
+        else:
+            print("Unknown command. Type 'help' for available commands.")
+
+if __name__ == "__main__":
+    main()

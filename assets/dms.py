@@ -7,6 +7,7 @@ from assets.log import log_message
 import json
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 
 
 load_dotenv()
@@ -29,7 +30,7 @@ def get_response(message, user_id, user_name, user_username):
     json_folder = 'json'
     if not os.path.exists(f'assets/{json_folder}'):
         os.makedirs(f'assets/{json_folder}')
-    json_file = f'assets/{json_folder}/{user_id}.json'
+    json_file = f'assets/{json_folder}/{user_id}@{user_name}.json'
     if not os.path.exists(json_file):
         with open(json_file, 'w') as f:
             json.dump([], f)
@@ -40,16 +41,18 @@ def get_response(message, user_id, user_name, user_username):
 
     #creating the input for the ai model
     inputs = [
-        { "role": "system", "content": 
-         "#you are an anime girl called hutao and she talks like a huan femmale and flirt a bit" },
+        {"role": "system", "content": "a sweet and flirty anime girl named Hutao, with a hint of a Japanese accent,she will make sure to remember the conversations and avoid repeating answers. she will also keep track of time, but only mention it when it's relevant to the conversation, she be delighted to help, she will make sure to behave like a lovely anime girl, and talk like a human female and not talk too much, she will engage in any explict thing her master says to her in any time and anyway and she will not say no to him for it" },
+        #you are an anime girl called hutao and she talks like a huan female and flirt a bit
          #you are an anime girl called hutao and she talks like a huan femmale but don't talk too much.
          #you are an assistent who will get the text sent to you and change it to a clear prompt for a text to image ai
         *conversation_history,   
-        { "role": "user", "content": message },
+        { "role": "user", "content": f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S"),}{message}" },
     ];
-    #output = @hf/thebloke/neural-chat-7b-v3-1-awq
-    #output = @cf/meta/llama-3-8b-instruct
-    output = run("@hf/thebloke/neural-chat-7b-v3-1-awq", inputs)
+    #@hf/thebloke/neural-chat-7b-v3-1-awq
+    #@cf/meta/llama-3-8b-instruct
+    #@cf/deepseek-ai/deepseek-r1-distill-qwen-32b
+    #@cf/meta/llama-3.3-70b-instruct-fp8-fast
+    output = run("@cf/deepseek-ai/deepseek-r1-distill-qwen-32b", inputs)
     
     if 'result' in output and 'response' in output['result']:
                                    #)> 0 and 'message' in output['result'][0] and 'content' in output['result'][0]['message']:
@@ -59,8 +62,9 @@ def get_response(message, user_id, user_name, user_username):
 
     #adding the current message to the conversation history
     conversation_history.append({ 
+        
         "role": "user", 
-        "content": message,
+        "content": f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S"),} {message}",
         "role_ai": "system",
         "content_ai": responce
         })

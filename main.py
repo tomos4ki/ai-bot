@@ -20,7 +20,7 @@ intents.presences = False
 
 load_dotenv()
 
-activity = discord.Activity(type=discord.ActivityType.playing, name="updating code :(")
+activity = discord.Activity(type=discord.ActivityType.playing, name="updating dm's :(")
 client = commands.Bot(
     command_prefix='!', 
     activity=activity, 

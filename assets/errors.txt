@@ -165,3 +165,9 @@ Traceback (most recent call last):
     raise CommandInvokeError(self, e) from e
 discord.app_commands.errors.CommandInvokeError: Command 'test' raised an exception: AttributeError: 'CommandTree' object has no attribute 'user_id'
 mint@mint:~/Desktop/hutao-ai-bot$ 
+
+
+
+
+
+can i make another json with the imputs so that 

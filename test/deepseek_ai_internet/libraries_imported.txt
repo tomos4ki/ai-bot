@@ -1,0 +1,7 @@
+bs4 = pip install beautifulsoup4
+
+
+
+
+
+The streaming issue occurs because we're not properly parsing the Server-Sent Events (SSE) format from Cloudflare's API.
