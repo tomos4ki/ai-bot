@@ -6,13 +6,13 @@ import re
 class EricaAI:
     def __init__(self):
         # Cloudflare AI Configuration
-        self.ACCOUNT_ID = "db5d0abbbab31174a76149945ff13959"
-        self.AUTH_TOKEN = "2xsmQlhaHey5Z7TaZzXOiw3QP-7R1N37fdye7-Lf"
+        self.ACCOUNT_ID = ""
+        self.AUTH_TOKEN = ""
         self.AI_ENDPOINT = f"https://api.cloudflare.com/client/v4/accounts/{self.ACCOUNT_ID}/ai/run/@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"
         
         # Google Search Configuration
-        self.search_engine_id = "f23e5206f6f7e4286"
-        self.google_api_key = "AIzaSyAozAnezuAdzjVBtvibZnEAv5NvSVR47vs"
+        self.search_engine_id = ""
+        self.google_api_key = ""
         
         # Conversation History
         self.conversation_history = [
