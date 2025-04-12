@@ -1,0 +1,17 @@
+AI-BOT/
+├── main.py
+├── .env # bot env codes, token etc...
+├── discord-ai.log
+├── LICENCE
+├── readme.md
+├── SECURITY.md
+└── assets/
+    ├── .env #dms.py env codes
+    ├── dms.py       
+    └── commands/
+    │   ├── cog1.py
+    │   └── cog2.py
+    └── json/
+        ├── userNameId@UserNameUsername.json
+        └── ... same thing
+
