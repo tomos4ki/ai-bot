@@ -11,12 +11,13 @@ import discord
 import asyncio
 from discord.ext import commands, tasks
 from discord.ext.commands import Context
+from typing import Optional
 from dotenv import load_dotenv
 from assets.log import log_message
 import random
 
 
-from assets.commands import CommandTree
+#from assets.commands.command_tree import CommandTree
 # from assets.dms import handle_dm
 
 
@@ -120,14 +121,60 @@ logger.addHandler(file_handler)
 
 
 
+#######################################################################################################
+
+# --- Animation helpers ---
+
+async def spinner_task(msg, stop_event):
+    spinner = ['|', '/', '-', '\\']
+    i = 0
+    while not stop_event.is_set():
+        sys.stdout.write(f"\r{spinner[i % len(spinner)]} {msg}")
+        sys.stdout.flush()
+        await asyncio.sleep(0.1)
+        i += 1
+    sys.stdout.write(f"\r✓ {msg} Done!\n")
+    sys.stdout.flush()
+
+async def typewriter_log(logger, msg, delay=0.05):
+    for char in msg:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        await asyncio.sleep(delay)
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+    logger.info(msg)
+
+async def progress_bar(total=30, delay=0.05):
+    for i in range(total + 1):
+        bar = '█' * i + '-' * (total - i)
+        percent = (i / total) * 100
+        sys.stdout.write(f'\r[{bar}] {percent:5.1f}%')
+        sys.stdout.flush()
+        await asyncio.sleep(delay)
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+
+#######################################################################################################
+
+
+
 
 
 class DiscordAiBot(commands.Bot):
     def __init__(self) -> None:
+        owner_id_env = os.getenv("OWNER_ID")
+        processed_owner_id: Optional[int] = None
+        if owner_id_env:
+            try:
+                processed_owner_id = int(owner_id_env)
+            except ValueError:
+                logger.warning(f"OWNER_ID '{owner_id_env}' in .env is not a valid integer.")
         super().__init__(
             command_prefix = commands.when_mentioned_or(os.getenv("DISCORD_AI_PREFIX")),
             intents = intents,
             help_command = None,
+            owner_id=processed_owner_id
         )
         """
         This creates custom bot variables so that we can access these variables in cogs more easily.
@@ -158,9 +205,9 @@ class DiscordAiBot(commands.Bot):
             exception = f"{type(e).__name__}: {e}"
             self.logger.error(f"Failed to load extention 'dms'/n {exception}")
         # Load all cogs in the assets/commands directory.
-        commands_path = os.path.realpath(os.path.join(os.path.dirname(__file__),"assets/commands")) #"assets","commands"
+        commands_path = os.path.join(os.path.dirname(__file__), "assets", "commands") #"assets","commands"
         for filename in os.listdir(commands_path):
-            if filename.endswith(".py"):
+            if filename.endswith(".py") and not filename.startswith("_"):
                 extention = filename[:-3]
                 try:
                     # Load the cog
@@ -233,10 +280,18 @@ class DiscordAiBot(commands.Bot):
             activity = discord.Activity(type=activity_type, name=activity_name)
 
         
-        discordStatus = [discord.Status.dnd, discord.Status.idle, discord.Status.online, discord.Status.invisible]
+        discordStatus = [
+            discord.Status.online, #50%
+            discord.Status.dnd, #20%
+            discord.Status.idle, #20%
+            discord.Status.invisible #10%
+        ]
         #discordStatus = [discord.Status.invisible]
+
+        #defining the wheights for each status(propability of the status to occure)
+        weights = [50, 20, 20, 10]
         
-        new_status = random.choice(discordStatus)
+        new_status = random.choices(discordStatus, weights=weights, k=1)[0]
     
         await self.change_presence(activity=activity, status=new_status)
 
@@ -245,7 +300,7 @@ class DiscordAiBot(commands.Bot):
                f"name set to '{activity.name}', presence set to {new_status.name}.")
     
         # Print to the terminal.
-        print(log_msg)
+        #print(log_msg)
     
         # Log the change using the logger.
         self.logger.info(log_msg)
@@ -262,27 +317,66 @@ class DiscordAiBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         """
-        This will just be executed when the bot starts the first time.
+            Asynchronous setup hook called before the bot logs in.
+            Use this for loading extensions and starting background tasks.
         """
+        # Start spinner
+        stop_spinner = asyncio.Event()
+        spinner = asyncio.create_task(spinner_task("running setup hook...", stop_event=stop_spinner))
 
+        # Do the background work while spinner runs
+        await asyncio.sleep(2)
+
+        # Stop spinner *before* any typewriter logs
+        stop_spinner.set()
+        await spinner
+
+        # Now safe to use typewriter
+        await typewriter_log(self.logger, f"Logged in as {self.user.name} ({self.user.id})")
         await asyncio.sleep(1)
-        self.logger.info(f"Logged in as {self.user.name}")
-        await asyncio.sleep(1)
+
+        await typewriter_log(self.logger, f"Owner ID(s): {self.owner_id or 'Not Set by constructor'}")
+        await asyncio.sleep(0.4)
+
         self.logger.info(f"Discord.py version: {discord.__version__}")
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.4)
         self.logger.info(f"Python version: {platform.python_version()}")
-        await asyncio.sleep(1)
-        self.logger.info(
-            f"Running om: {platform.system()} {platform.release()}({os.name})"
-        )
-        await asyncio.sleep(1)
-        self.logger.info("Starting the bot...")
-        await asyncio.sleep(1)
-        self.logger.info("Loading cogs...")
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.4)
+        self.logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
+        await asyncio.sleep(0.4)
+
+        await typewriter_log(self.logger, "Starting the bot...")
+        await asyncio.sleep(2)
+
+        await typewriter_log(self.logger, "Loading cogs...")
+
+        await progress_bar()
         await self.load_cogs()
         await asyncio.sleep(1)
+
+        
         self.statues_update_task.start()
+        
+        
+        
+        #####################################################
+        # self.logger.info(f"running setup hook...")
+        # await asyncio.sleep(0.4)
+        # self.logger.info(f"Logged in as {self.user.name}({self.user.id})")
+        # await asyncio.sleep(0.4)
+        # self.logger.info(f"Discord.py version: {discord.__version__}")
+        # await asyncio.sleep(0.4)
+        # self.logger.info(f"Python version: {platform.python_version()}")
+        # await asyncio.sleep(0.4)
+        # self.logger.info(f"Running om: {platform.system()} {platform.release()}({os.name})")
+        # await asyncio.sleep(0.4)
+        # self.logger.info("Starting the bot...")
+        # await asyncio.sleep(2)
+        # self.logger.info("Loading cogs...")
+        # await asyncio.sleep(0.4)
+        # await self.load_cogs()
+        # await asyncio.sleep(0.1)
+        # self.statues_update_task.start()
     
 
 
@@ -388,11 +482,52 @@ class DiscordAiBot(commands.Bot):
             raise error
 
     
+# --- Run the Bot --- 
+if __name__ == "__main__":
+    bot = DiscordAiBot()
+    # Load environment variables from .env file
+    
+    TOKEN = os.getenv("DISCORD_AI_TOKEN")
+    owner_id_str = os.getenv("OWNER_ID")
+    if TOKEN is None:
+        print("FATAL ERROR: DISCORD_AI_TOKEN environment variable not set in .env file!", file=sys.stderr)
+        sys.exit("Token not found. Exiting.") # Exit if no token
+
+    # Optional: Set owner ID from .env for is_owner() checks
+    
+    if owner_id_str:
+        try:
+            owner_id = int(owner_id_str)
+            # You might pass this to the bot constructor if it accepts owner_id
+            print(f"Owner ID set to: {owner_id}")
+        except ValueError:
+            print(f"Warning: OWNER_ID '{owner_id_str}' in .env is not a valid integer.", file=sys.stderr)
+            owner_id = None # Or handle as error if required
+    else:
+        print("Warning: OWNER_ID not set in .env. Owner commands might rely on bot application owner.", file=sys.stderr)
+        owner_id = None
 
 
+    # Initialize and run the bot
+    bot = DiscordAiBot() # owner_id might be passed here if constructor accepts it
 
-bot=DiscordAiBot()
-bot.run(os.getenv("DISCORD_AI_TOKEN"))
+    try:
+         print("Attempting to run the bot...")
+         bot.run(TOKEN, log_handler=None) # Use default logging setup initially
+         # Consider bot.run(TOKEN, root_logger=True) if you want dpy logs integrated with your handlers
+
+    except discord.LoginFailure:
+         print("FATAL ERROR: Invalid Discord Token. Please check your DISCORD_AI_TOKEN in the .env file.", file=sys.stderr)
+    except discord.PrivilegedIntentsRequired:
+         print("FATAL ERROR: Privileged intents (likely Server Members or Message Content) are required but not enabled.", file=sys.stderr)
+         print("Please enable them in your bot's application page on the Discord Developer Portal.", file=sys.stderr)
+    except Exception as e:
+         print(f"FATAL ERROR: An unexpected error occurred during bot execution: {e}", file=sys.stderr)
+         # Log the full traceback here using the logger if it's set up, or print
+         import traceback
+         traceback.print_exc()
+    finally:
+         print("Bot process has concluded.")
 
         # statues = []
         # # Get the current time

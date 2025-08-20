@@ -1,0 +1,12 @@
+discord.py>=2.3.2
+python-dotenv>=1.0.0
+asyncio>=3.4.3
+typing>=3.7.4.3
+logging>=0.5.1.2
+google-generativeai>=0.3.0
+requests>=2.31.0
+sqlite3>=3.35.0
+together>=0.2.5
+yt-dlp>=2023.12.30
+aiohttp>=3.9.1
+ffmpeg-python>=0.2.0 
